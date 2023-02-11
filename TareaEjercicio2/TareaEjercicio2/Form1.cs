@@ -17,7 +17,7 @@ namespace TareaEjercicio2
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private  async void button1_Click(object sender, EventArgs e)
         {
             decimal nota1 = 0;
             decimal nota2 = 0;
@@ -27,22 +27,26 @@ namespace TareaEjercicio2
             nota2 = Convert.ToDecimal(nota2textBox.Text);
             nota3 = Convert.ToDecimal(nota3textBox.Text);
             nota4 = Convert.ToDecimal(nota4textBox.Text);
-            MessageBox.Show("El promedio es "+calcular(nota1,nota2,nota3,nota4));
+            decimal prom = await CalcularaAsync(nota1, nota2, nota3, nota4);
+            MessageBox.Show($"El promedio es:{prom}");
             LimpiarControles();
         }
-        private decimal calcular (decimal nota1,decimal nota2,decimal nota3,decimal nota4)
+        private async Task<decimal> CalcularaAsync(decimal nota1, decimal nota2, decimal nota3, decimal nota4)
         {
-            decimal nota = nota1 + nota2 + nota3 + nota4;
-
-             decimal promedio = nota / 4;
+            decimal promedio = await Task.Run(() =>
+            {
+                return (nota1 + nota2 + nota3 + nota4)/4;         
+            });
             return promedio;
         }
+
         private void LimpiarControles()
         {
             nota1textBox.Clear();
             nota2textBox.Clear();
             nota3textBox.Clear();
             nota4textBox.Clear();
-        }       
+        }
+
     }
 }
